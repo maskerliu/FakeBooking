@@ -7,8 +7,6 @@
 //
 
 #import "UIButton+Extension.h"
-#import "UIColor+Extension.h"
-#import "UIImage+Extension.h"
 
 @implementation UIButton(Extension)
 

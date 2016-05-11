@@ -6,10 +6,6 @@
 //  Copyright © 2016 dianping. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
-#import <UIKit/UIKit.h>
-
-
 @interface UIColor(Extension)
 
 // 绿色
@@ -35,6 +31,10 @@
 // 橙色
 + (UIColor *)carrot;
 + (UIColor *)pumpkin;
+
+// 灰色
++ (UIColor *)cloud;
++ (UIColor *)silver;
 
 // 黄色
 + (UIColor *)sunFlower;

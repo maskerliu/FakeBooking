@@ -67,6 +67,14 @@
     return [UIColor colorWithHex:@"#c0392b"];
 }
 
+// 灰色
++ (UIColor *)cloud {
+    return [UIColor colorWithHex:@"#ecf0f1"];
+}
++ (UIColor *)silver {
+    return [UIColor colorWithHex:@"#bdc3c7"];
+}
+
 + (UIColor *)colorWithHex:(NSString *)str {
     
     NSString *cString = [[str stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] uppercaseString];

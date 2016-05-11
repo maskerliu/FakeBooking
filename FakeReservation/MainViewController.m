@@ -7,7 +7,6 @@
 //
 
 #import "MainViewController.h"
-#import "UIButton+Extension.h"
 
 @interface MainViewController ()
 
@@ -19,7 +18,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
     
-    [self.view setBackgroundColor:[UIColor whiteColor]];
+    [self.view setBackgroundColor:[UIColor cloud]];
     
     UIButton *btnReservation = [UIButton greenButtonWithFrame:CGRectMake(15, 50, self.view.bounds.size.width - 30, 44)];
     [btnReservation setTitle:@"预订" forState:UIControlStateNormal];
