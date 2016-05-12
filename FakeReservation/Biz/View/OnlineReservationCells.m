@@ -59,7 +59,6 @@
         [self.contentView addSubview:_lKey];
         
         _lPeopleCount = [[UILabel alloc] initWithFrame:CGRectMake(self.contentView.bounds.size.width - 50, 5, 30, 34)];
-        _lPeopleCount setTextColor:[UIColor ]
     }
     return self;
 }
