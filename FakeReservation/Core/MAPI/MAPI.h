@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+typedef void(^DPMapiRequestCompletionBlock)(NVObject *object, NSError *error);
+
 @interface MAPI : NSObject
 
 /**
@@ -15,22 +17,21 @@
  *
  *  @param URLString           URLString the absolute path string
  *  @param parameterDictionary parameterDictionary the URL parameters
- *  @param finished            finished callback called when the request is finished
+ *  @param completionBlock     finished callback called when the request is finished
  */
 - (void)dp_getFromURL:(NSString *)URLString
            parameters:(NSDictionary *)parameterDictionary
-             finished:(NVObject *)finished;
-
+      completionBlock:(DPMapiRequestCompletionBlock)completionBlock;
 
 /**
  *  request to Dianping mobile backend via "POST" method
  *
  *  @param URLString           URLString the absolute path string
  *  @param parameterDictionary parameterDictionary the post body paramters
- *  @param finished            finished callback called when the request is finished
+ *  @param completionBlock     finished callback called when the request is finished
  */
 - (void)dp_postToURL:(NSString *)URLString
           parameters:(NSDictionary *)parameterDictionary
-            finished:(NVObject *)finished;
+     completionBlock:(DPMapiRequestCompletionBlock)completionBlock;
 
 @end
