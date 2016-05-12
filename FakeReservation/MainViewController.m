@@ -7,6 +7,7 @@
 //
 
 #import "MainViewController.h"
+#import "DemoVC.h"
 
 @interface MainViewController ()
 
@@ -20,14 +21,24 @@
     
     [self.view setBackgroundColor:[UIColor cloud]];
     
-    UIButton *btnReservation = [UIButton greenButtonWithFrame:CGRectMake(15, 50, self.view.bounds.size.width - 30, 44)];
+    UIButton *btnReservation = [UIButton greenButtonWithFrame:CGRectMake(15, 90, self.view.bounds.size.width - 30, 44)];
     [btnReservation setTitle:@"预订" forState:UIControlStateNormal];
+    [btnReservation addTarget:self action:@selector(p_buttonClick:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:btnReservation];
+    
+    
+    
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+
+- (void)p_buttonClick:(UIButton *)btn {
+    DemoVC *demoVC = [[DemoVC alloc] init];
+    [self.navigationController pushViewController:demoVC animated:YES];
 }
 
 @end
