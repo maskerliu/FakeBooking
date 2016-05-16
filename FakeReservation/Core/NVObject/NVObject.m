@@ -1340,22 +1340,6 @@ static NSString *__dpobj_lastKey = nil;
     return [dict copy];
 }
 
-+ (BOOL)loadApiFromUrl:(NSString *)url {
-    NSURLRequest *req = [[NSURLRequest alloc] initWithURL:[NSURL URLWithString:url] cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData timeoutInterval:5];
-    NSURLResponse *resp = nil;
-    NSData *result = [NSURLConnection sendSynchronousRequest:req returningResponse:&resp error:NULL];
-    if([result length] && [resp isKindOfClass:[NSHTTPURLResponse class]] && [(NSHTTPURLResponse *)resp statusCode] == 200) {
-        __dpobj_apiMap = [self parseApiMap:result];
-        NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
-        NSString *dir = [paths objectAtIndex:0];
-        NSString *path = [dir stringByAppendingPathComponent:@"api.txt"];
-        [result writeToFile:path atomically:YES];
-        return YES;
-    } else {
-        return NO;
-    }
-}
-
 + (BOOL)loadApiFromFile {
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
     NSString *dir = [paths objectAtIndex:0];

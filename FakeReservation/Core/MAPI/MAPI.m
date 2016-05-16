@@ -127,14 +127,13 @@ static NSData *dp_dianpingDataFromParameters(NSDictionary *parameters)
 
 static NSString *dp_percentEscapedQueryStringPairMemberFromString(NSString *string)
 {
-    static NSString *const kAFCharactersToBeEscaped = @":/?&=;+!@#$()',*";
-    static NSString *const kAFCharactersToLeaveUnescaped = @"[].";
+    static NSString * const kAFCharactersGeneralDelimitersToEncode = @":#[]@"; // does not include "?" or "/" due to RFC 3986 - Section 3.4
+    static NSString * const kAFCharactersSubDelimitersToEncode = @"!$&'()*+,;=";
     
-    return (__bridge_transfer NSString *)CFURLCreateStringByAddingPercentEscapes (kCFAllocatorDefault,
-                                                                                 (__bridge CFStringRef)string,
-                                                                                 (__bridge CFStringRef)kAFCharactersToLeaveUnescaped,
-                                                                                 (__bridge CFStringRef)kAFCharactersToBeEscaped,
-                                                                                 CFStringConvertNSStringEncodingToEncoding(NSUTF8StringEncoding));
+    NSMutableCharacterSet * allowedCharacterSet = [[NSCharacterSet URLQueryAllowedCharacterSet] mutableCopy];
+    [allowedCharacterSet removeCharactersInString:[kAFCharactersGeneralDelimitersToEncode stringByAppendingString:kAFCharactersSubDelimitersToEncode]];
+    
+    return [string stringByAddingPercentEncodingWithAllowedCharacters:allowedCharacterSet];
 }
 
 @end
