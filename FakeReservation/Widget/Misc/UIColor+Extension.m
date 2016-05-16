@@ -75,6 +75,13 @@
     return [UIColor colorWithHex:@"#bdc3c7"];
 }
 
++ (UIColor *)asphalt {
+    return [UIColor colorWithHex:@"#34495e"];
+}
++ (UIColor *)midnightBlue {
+    return [UIColor colorWithHex:@"#2c3e50"];
+}
+
 + (UIColor *)colorWithHex:(NSString *)str {
     
     NSString *cString = [[str stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] uppercaseString];

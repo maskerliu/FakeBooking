@@ -7,7 +7,12 @@
 //
 
 #import "MainViewController.h"
+
+#import "FakeReservationVC.h"
 #import "MAPI.h"
+
+#import "RadioButtonGroup.h"
+
 
 @interface MainViewController ()
 
@@ -21,8 +26,12 @@
     
     [self.view setBackgroundColor:[UIColor cloud]];
     
-    UIButton *btnReservation = [UIButton greenButtonWithFrame:CGRectMake(15, 50, self.view.bounds.size.width - 30, 44)];
+    UIButton *btnReservation = [UIButton greenButtonWithFrame:CGRectMake(15, 90, self.view.bounds.size.width - 30, 44)];
     [btnReservation setTitle:@"预订" forState:UIControlStateNormal];
+    [btnReservation addTarget:self action:@selector(p_buttonClick:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:btnReservation];
+    
+    
     [btnReservation addTarget:self action:@selector(btnReservationPressed:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:btnReservation];
     
@@ -30,11 +39,25 @@
     [btnResult setTitle:@"查看结果" forState:UIControlStateNormal];
     [btnResult addTarget:self action:@selector(btnResultPressed:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:btnResult];
+    
+    NSMutableArray *rbgConfig = [[NSMutableArray alloc] init];
+    [rbgConfig addObject:@{@"title": @"先生", @"value": @"0"}];
+    [rbgConfig addObject:@{@"title": @"女士", @"value": @"1"}];
+    RadioButtonGroup *rbg = [[RadioButtonGroup alloc] initWithFrame:CGRectMake(15, btnResult.frame.origin.y + btnResult.frame.size.height + 15, 200, 200)
+                                                               data:rbgConfig];
+    
+    [self.view addSubview:rbg];
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+
+- (void)p_buttonClick:(UIButton *)btn {
+    FakeReservationVC *demoVC = [[FakeReservationVC alloc] init];
+    [self.navigationController pushViewController:demoVC animated:YES];
 }
 
 - (void)btnReservationPressed:(id)button
