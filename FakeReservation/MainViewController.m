@@ -8,8 +8,10 @@
 
 #import "MainViewController.h"
 
-#import "DemoVC.h"
+#import "FakeReservationVC.h"
 #import "MAPI.h"
+
+#import "RadioButtonGroup.h"
 
 
 @interface MainViewController ()
@@ -37,6 +39,14 @@
     [btnResult setTitle:@"查看结果" forState:UIControlStateNormal];
     [btnResult addTarget:self action:@selector(btnResultPressed:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:btnResult];
+    
+    NSMutableArray *rbgConfig = [[NSMutableArray alloc] init];
+    [rbgConfig addObject:@{@"title": @"先生", @"value": @"0"}];
+    [rbgConfig addObject:@{@"title": @"女士", @"value": @"1"}];
+    RadioButtonGroup *rbg = [[RadioButtonGroup alloc] initWithFrame:CGRectMake(15, btnResult.frame.origin.y + btnResult.frame.size.height + 15, 200, 200)
+                                                               data:rbgConfig];
+    
+    [self.view addSubview:rbg];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -46,7 +56,7 @@
 
 
 - (void)p_buttonClick:(UIButton *)btn {
-    DemoVC *demoVC = [[DemoVC alloc] init];
+    FakeReservationVC *demoVC = [[FakeReservationVC alloc] init];
     [self.navigationController pushViewController:demoVC animated:YES];
 }
 

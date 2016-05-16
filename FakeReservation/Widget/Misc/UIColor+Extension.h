@@ -40,6 +40,10 @@
 + (UIColor *)sunFlower;
 + (UIColor *)orange;
 
+// asphalt
++ (UIColor *)asphalt;
++ (UIColor *)midnightBlue;
+
 + (UIColor *)colorWithHex:(NSString *)str;
 
 @end

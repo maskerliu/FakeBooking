@@ -20,8 +20,10 @@
 		145AD9571CE3116000DB8709 /* NSData+DPNetwork.m in Sources */ = {isa = PBXBuildFile; fileRef = 145AD9561CE3116000DB8709 /* NSData+DPNetwork.m */; };
 		145AD9591CE3132600DB8709 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 145AD9581CE3132600DB8709 /* libz.tbd */; };
 		145AD95C1CE3142700DB8709 /* MAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = 145AD95B1CE3142700DB8709 /* MAPI.m */; };
-		145AD9661CE427B600DB8709 /* DemoVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 145AD9631CE427B600DB8709 /* DemoVC.m */; };
+		145AD9661CE427B600DB8709 /* FakeReservationVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 145AD9631CE427B600DB8709 /* FakeReservationVC.m */; };
 		145AD9781CE428B400DB8709 /* OnlineReservationCells.m in Sources */ = {isa = PBXBuildFile; fileRef = 145AD9771CE428B400DB8709 /* OnlineReservationCells.m */; };
+		145AD97A1CE49F3700DB8709 /* Resource.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 145AD9791CE49F3700DB8709 /* Resource.xcassets */; };
+		145AD9801CE5D50B00DB8709 /* RadioButtonGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = 145AD97F1CE5D50B00DB8709 /* RadioButtonGroup.m */; };
 		EC194CA650DFD0A5BF9468AD /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AFBFEB87730C4209DEBB074 /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -52,10 +54,13 @@
 		145AD9581CE3132600DB8709 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		145AD95A1CE3142700DB8709 /* MAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAPI.h; sourceTree = "<group>"; };
 		145AD95B1CE3142700DB8709 /* MAPI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MAPI.m; sourceTree = "<group>"; };
-		145AD9621CE427B600DB8709 /* DemoVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DemoVC.h; sourceTree = "<group>"; };
-		145AD9631CE427B600DB8709 /* DemoVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DemoVC.m; sourceTree = "<group>"; };
+		145AD9621CE427B600DB8709 /* FakeReservationVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FakeReservationVC.h; sourceTree = "<group>"; };
+		145AD9631CE427B600DB8709 /* FakeReservationVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FakeReservationVC.m; sourceTree = "<group>"; };
 		145AD9761CE428B400DB8709 /* OnlineReservationCells.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OnlineReservationCells.h; sourceTree = "<group>"; };
 		145AD9771CE428B400DB8709 /* OnlineReservationCells.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OnlineReservationCells.m; sourceTree = "<group>"; };
+		145AD9791CE49F3700DB8709 /* Resource.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Resource.xcassets; sourceTree = "<group>"; };
+		145AD97E1CE5D50B00DB8709 /* RadioButtonGroup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RadioButtonGroup.h; sourceTree = "<group>"; };
+		145AD97F1CE5D50B00DB8709 /* RadioButtonGroup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RadioButtonGroup.m; sourceTree = "<group>"; };
 		A06A0C40A886DD28A0B36923 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		E6387B824D680578B69941AC /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -105,6 +110,7 @@
 				145AD9341CE1BD2E00DB8709 /* LaunchScreen.storyboard */,
 				145AD9371CE1BD2E00DB8709 /* Info.plist */,
 				145AD9261CE1BD2E00DB8709 /* Supporting Files */,
+				145AD9791CE49F3700DB8709 /* Resource.xcassets */,
 			);
 			path = FakeReservation;
 			sourceTree = "<group>";
@@ -171,6 +177,8 @@
 			children = (
 				145AD9491CE1D2CE00DB8709 /* UIButton+Extension.h */,
 				145AD94A1CE1D2CE00DB8709 /* UIButton+Extension.m */,
+				145AD97E1CE5D50B00DB8709 /* RadioButtonGroup.h */,
+				145AD97F1CE5D50B00DB8709 /* RadioButtonGroup.m */,
 			);
 			path = Button;
 			sourceTree = "<group>";
@@ -199,8 +207,8 @@
 		145AD9611CE427B600DB8709 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				145AD9621CE427B600DB8709 /* DemoVC.h */,
-				145AD9631CE427B600DB8709 /* DemoVC.m */,
+				145AD9621CE427B600DB8709 /* FakeReservationVC.h */,
+				145AD9631CE427B600DB8709 /* FakeReservationVC.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -302,6 +310,7 @@
 			files = (
 				145AD9361CE1BD2E00DB8709 /* LaunchScreen.storyboard in Resources */,
 				145AD9331CE1BD2E00DB8709 /* Assets.xcassets in Resources */,
+				145AD97A1CE49F3700DB8709 /* Resource.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -362,7 +371,7 @@
 			files = (
 				145AD95C1CE3142700DB8709 /* MAPI.m in Sources */,
 				145AD9431CE1C8EF00DB8709 /* NVObject.m in Sources */,
-				145AD9661CE427B600DB8709 /* DemoVC.m in Sources */,
+				145AD9661CE427B600DB8709 /* FakeReservationVC.m in Sources */,
 				145AD94F1CE1D83300DB8709 /* UIImage+Extension.m in Sources */,
 				145AD94B1CE1D2CE00DB8709 /* UIButton+Extension.m in Sources */,
 				145AD9521CE1D89E00DB8709 /* UIColor+Extension.m in Sources */,
@@ -372,6 +381,7 @@
 				145AD92B1CE1BD2E00DB8709 /* AppDelegate.m in Sources */,
 				145AD9281CE1BD2E00DB8709 /* main.m in Sources */,
 				145AD9571CE3116000DB8709 /* NSData+DPNetwork.m in Sources */,
+				145AD9801CE5D50B00DB8709 /* RadioButtonGroup.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

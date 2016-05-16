@@ -35,17 +35,17 @@ const static NSInteger OnlineReservationCell_ExtraNote = 4;
 @end
 
 
-@interface NameCell : OnlineReservationCell
+@interface NameCell : OnlineReservationCell<UITextFieldDelegate>
 
 @end
 
 
-@interface TelePhoneCell : OnlineReservationCell
+@interface TelePhoneCell : OnlineReservationCell<UITextFieldDelegate>
 
 @end
 
 
-@interface ExtraNoteCell : OnlineReservationCell
+@interface ExtraNoteCell : OnlineReservationCell<UITextFieldDelegate>
 
 @end
 

@@ -1,17 +1,21 @@
 //
-//  DemoVC.m
+//  FakeReservationVC.m
 //  FakeReservation
 //
 //  Created by yixin.jiang on 5/11/16.
 //  Copyright © 2016 dianping. All rights reserved.
 //
 
-#import "DemoVC.h"
+#import "FakeReservationVC.h"
 
 #import "OnlineReservationCells.h"
 
-@interface DemoVC ()<UITableViewDataSource, UITableViewDelegate> {
+@interface FakeReservationVC ()<UITableViewDataSource, UITableViewDelegate> {
     NSMutableArray *_viewConfig;
+    
+    NameCell *_nameCell;
+    TelePhoneCell *_telePhoneCell;
+    ExtraNoteCell *_extraNoteCell;
 }
 
 @property (nonatomic, strong) NSArray *heros;
@@ -19,23 +23,37 @@
 
 @end
 
-@implementation DemoVC
+@implementation FakeReservationVC
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidShown:) name:UIKeyboardDidShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHidden:) name:UIKeyboardWillHideNotification object:nil];
+    
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     [self.view setBackgroundColor:[UIColor cloud]];
+    [self.navigationController.navigationBar setTranslucent:NO];
     
-    UIButton *btnReservation = [UIButton greenButtonWithFrame:CGRectMake(15, self.view.bounds.size.height - 50, self.view.bounds.size.width - 30, 44)];
-    [btnReservation setTitle:@"预订" forState:UIControlStateNormal];
-    [btnReservation addTarget:self action:@selector(p_buttonClick:) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:btnReservation];
+    UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(p_hideKeyBoard)];
+//    tapGesture.numberOfTapsRequired = 1;
+    tapGesture.cancelsTouchesInView = NO;
+    [self.tableView addGestureRecognizer:tapGesture];
     
-    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 50, self.view.bounds.size.width, self.view.frame.size.height - 100)
+    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.bounds.size.height - 100)
                                                   style:UITableViewStyleGrouped];
     [self.tableView setDataSource:self];
     [self.tableView setDelegate:self];
     [self.view addSubview:self.tableView];
+    
+    UIButton *btnReservation = [UIButton greenButtonWithFrame:CGRectMake(15, self.view.bounds.size.height - 120, self.view.bounds.size.width - 30, 44)];
+    [btnReservation setTitle:@"预订" forState:UIControlStateNormal];
+    [btnReservation addTarget:self action:@selector(p_buttonClick:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:btnReservation];
     
     _viewConfig = [[NSMutableArray alloc] init];
     
@@ -54,6 +72,12 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:animated];
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardDidShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
+}
 /*
 #pragma mark - Navigation
 
@@ -84,11 +108,20 @@
     NSArray *sectionConfig = (NSArray *)_viewConfig[indexPath.section];
     NSNumber *cellId = sectionConfig[indexPath.row];
     Class cellClazz = [self p_findCellByCellId:cellId];
-    // 1.创建CELL
-    UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:nil];
-    cell.textLabel.text = @"hello world";
-    cell = [[cellClazz alloc] init];
-    // 3.返回cell
+    UITableViewCell *cell = [[cellClazz alloc] init];
+    
+    switch (cellId.integerValue) {
+        case OnlineReservationCell_Name:
+            _nameCell = (NameCell *)cell;
+            break;
+        case OnlineReservationCell_TelePhone:
+            _telePhoneCell = (TelePhoneCell *)cell;
+        case OnlineReservationCell_ExtraNote:
+            _extraNoteCell = (ExtraNoteCell *)cell;
+        default:
+            break;
+    }
+    
     return cell;
 }
 
@@ -103,6 +136,48 @@
     return 44;
 }
 */
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    return 5;
+}
+
+
+- (void)keyboardWillHidden:(NSNotification*)aNotification
+{
+    self.tableView.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height - 51);
+}
+
+- (void)p_touchTableView {
+    [self p_hideKeyBoard];
+}
+
+- (void)keyboardDidShown:(NSNotification*)aNotification
+{
+    CGRect kbBounds;
+    [[[aNotification userInfo] objectForKey:UIKeyboardFrameEndUserInfoKey] getValue:&kbBounds];
+    
+    CGFloat keyboardHeight = kbBounds.size.height;
+    self.tableView.frame=CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height - keyboardHeight);
+    
+    
+    if ([_nameCell isFirstResponder]) {
+        [self.tableView scrollRectToVisible:_nameCell.frame animated:YES];
+    }
+    
+    if ([_telePhoneCell isFirstResponder]) {
+        [self.tableView scrollRectToVisible:_telePhoneCell.frame animated:YES];
+    }
+    
+    if ([_extraNoteCell isFirstResponder]) {
+        [self.tableView scrollRectToVisible:_extraNoteCell.frame animated:YES];
+    }
+}
+
+- (void)p_hideKeyBoard {
+    [_nameCell resignFirstResponder];
+    [_telePhoneCell resignFirstResponder];
+    [_extraNoteCell resignFirstResponder];
+}
 
 - (void)p_buttonClick:(UIButton *)btn {
     [self p_fetchInfo:btn];

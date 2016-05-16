@@ -1,5 +1,5 @@
 //
-//  DemoVC.h
+//  FakeReservationVC.h
 //  FakeReservation
 //
 //  Created by yixin.jiang on 5/11/16.
@@ -11,7 +11,7 @@
 
 typedef void (^RequestCallback) (id object, NSURLRequest *request, NSError *error);
 
-@interface DemoVC : UIViewController
+@interface FakeReservationVC : UIViewController
 
 
 
