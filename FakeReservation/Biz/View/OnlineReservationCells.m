@@ -43,6 +43,8 @@
 
 @implementation SelectPeopleCountCell
 
+@synthesize peopleCount = _peopleCount;
+
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
@@ -68,13 +70,12 @@
 
 - (void)layoutSubviews {
     [super layoutSubviews];
-    [_lPeopleCount setFrame:CGRectMake(self.contentView.bounds.size.width - 30, 5, 30, 34)];
+    [_lPeopleCount setFrame:CGRectMake(self.contentView.bounds.size.width - 50, 5, 50, 34)];
 }
 
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
-    [super setSelected:selected animated:animated];
-    
-    // Configure the view for the selected state
+- (void)setPeopleCount:(NSString *)peopleCount {
+    _peopleCount = peopleCount;
+    [_lPeopleCount setText:[NSString stringWithFormat:@"%@人", self.peopleCount]];
 }
 
 @end

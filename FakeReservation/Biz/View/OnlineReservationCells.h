@@ -25,7 +25,7 @@ const static NSInteger OnlineReservationCell_ExtraNote = 4;
 
 @interface SelectPeopleCountCell : OnlineReservationCell
 
-@property (nonatomic, assign) NSInteger peopleCount;
+@property (nonatomic, strong) NSString *peopleCount;
 
 @end
 

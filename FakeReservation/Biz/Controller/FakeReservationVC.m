@@ -10,12 +10,18 @@
 
 #import "OnlineReservationCells.h"
 
-@interface FakeReservationVC ()<UITableViewDataSource, UITableViewDelegate> {
+@interface FakeReservationVC ()<UITableViewDataSource, UITableViewDelegate, UIPickerViewDataSource, UIPickerViewDelegate> {
     NSMutableArray *_viewConfig;
     
+    SelectPeopleCountCell *_peopleCountCell;
     NameCell *_nameCell;
     TelePhoneCell *_telePhoneCell;
     ExtraNoteCell *_extraNoteCell;
+    
+    UIView *_vPeopleCountBg;
+    UIPickerView *_pvPeopleCount;
+    
+    NSMutableArray *_peopleCountConfig;
 }
 
 @property (nonatomic, strong) NSArray *heros;
@@ -39,11 +45,6 @@
     [self.view setBackgroundColor:[UIColor cloud]];
     [self.navigationController.navigationBar setTranslucent:NO];
     
-    UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(p_hideKeyBoard)];
-//    tapGesture.numberOfTapsRequired = 1;
-    tapGesture.cancelsTouchesInView = NO;
-    [self.tableView addGestureRecognizer:tapGesture];
-    
     self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.bounds.size.height - 100)
                                                   style:UITableViewStyleGrouped];
     [self.tableView setDataSource:self];
@@ -57,7 +58,6 @@
     
     _viewConfig = [[NSMutableArray alloc] init];
     
-   
     NSArray *sectionConfig = [[NSArray alloc] initWithObjects:[NSNumber numberWithInt:OnlineReservationCell_PeopleCount],
                               [NSNumber numberWithInt:OnlineReservationCell_Date], nil];
     [_viewConfig addObject:sectionConfig];
@@ -65,6 +65,31 @@
     [_viewConfig addObject:sectionConfig];
     sectionConfig = [[NSArray alloc] initWithObjects:[NSNumber numberWithInt:OnlineReservationCell_ExtraNote], nil];
     [_viewConfig addObject:sectionConfig];
+    
+    
+    _vPeopleCountBg = [[UIView alloc] initWithFrame:self.view.bounds];
+    [_vPeopleCountBg setBackgroundColor:[UIColor colorWithHex:@"#a0000000"]];
+    [_vPeopleCountBg setHidden:YES];
+    [self.view addSubview:_vPeopleCountBg];
+    
+    _pvPeopleCount = [[UIPickerView alloc] init];
+    _pvPeopleCount.frame = CGRectMake(0, self.view.bounds.size.height, self.view.bounds.size.width, _pvPeopleCount.bounds.size.height);
+    [_pvPeopleCount setBackgroundColor:[UIColor whiteColor]];
+    [_pvPeopleCount setDelegate:self];
+    [_pvPeopleCount setDataSource:self];
+    [self.view addSubview:_pvPeopleCount];
+    
+    
+    self.view.userInteractionEnabled = YES;
+    UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapped:)];
+    tapGesture.cancelsTouchesInView = NO;
+    [self.view addGestureRecognizer:tapGesture];
+    tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapped:)];
+    tapGesture.cancelsTouchesInView = NO;
+    [_vPeopleCountBg addGestureRecognizer:tapGesture];
+    
+    
+    _peopleCountConfig = [[NSMutableArray alloc] initWithObjects:@"2", @"3", @"4", @"6", @"8", @"10", @"12", @"15+", nil];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -89,35 +114,35 @@
 */
 
 #pragma mark - UITableViewDataSource
-// 返回多少组
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-{
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return _viewConfig.count;
 }
 
-// 返回每一组有多少行
-- (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
+- (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     NSArray *array = (NSArray *)_viewConfig[section];
     return array.count;
 }
 
-// 返回哪一组的哪一行显示什么内容
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     NSArray *sectionConfig = (NSArray *)_viewConfig[indexPath.section];
     NSNumber *cellId = sectionConfig[indexPath.row];
     Class cellClazz = [self p_findCellByCellId:cellId];
     UITableViewCell *cell = [[cellClazz alloc] init];
     
     switch (cellId.integerValue) {
+        case OnlineReservationCell_PeopleCount:
+            _peopleCountCell = (SelectPeopleCountCell *)cell;
+            break;
         case OnlineReservationCell_Name:
             _nameCell = (NameCell *)cell;
             break;
         case OnlineReservationCell_TelePhone:
             _telePhoneCell = (TelePhoneCell *)cell;
+            break;
         case OnlineReservationCell_ExtraNote:
             _extraNoteCell = (ExtraNoteCell *)cell;
+            break;
         default:
             break;
     }
@@ -141,14 +166,93 @@
     return 5;
 }
 
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    NSArray *sectionConfig = (NSArray *)_viewConfig[indexPath.section];
+    NSNumber *cellId = sectionConfig[indexPath.row];
+    
+    switch (cellId.integerValue) {
+        case OnlineReservationCell_PeopleCount:
+            [self p_showPicker];
+            break;
+        case OnlineReservationCell_Date:
+            
+            break;
+        default:
+            break;
+    }
+}
+
+
+#pragma mark - UIPickerViewDataSource
+
+- (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView {
+    return 1;
+}
+
+- (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component {
+    return _peopleCountConfig.count;
+}
+
+#pragma mark - UIPickerViewDelegate
+
+- (CGFloat)pickerView:(UIPickerView *)pickerView widthForComponent:(NSInteger)component {
+    return 100;
+}
+
+- (CGFloat)pickerView:(UIPickerView *)pickerView rowHeightForComponent:(NSInteger)component {
+    return 60;
+}
+
+- (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component {
+    return _peopleCountConfig[row];
+}
+
+
+//- (nullable NSAttributedString *)pickerView:(UIPickerView *)pickerView attributedTitleForRow:(NSInteger)row forComponent:(NSInteger)component {}
+//- (UIView *)pickerView:(UIPickerView *)pickerView viewForRow:(NSInteger)row forComponent:(NSInteger)component reusingView:(nullable UIView *)view{}
+
+- (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
+    [_peopleCountCell setPeopleCount:_peopleCountConfig[row]];
+    [self p_hidePicker];
+}
+
+
+- (void)p_hidePicker {
+    [_vPeopleCountBg setHidden:YES];
+    float pvHeight = _pvPeopleCount.frame.size.height;
+    float y = self.view.bounds.size.height - (pvHeight * -2); // the root view of view controller
+    [UIView animateWithDuration:0.5f
+                          delay:0
+                        options:UIViewAnimationOptionBeginFromCurrentState
+                     animations:^{
+                         _pvPeopleCount.frame = CGRectMake(0 , y, _pvPeopleCount.frame.size.width, pvHeight);
+                     }
+                     completion:nil];
+}
+
+- (void)p_showPicker {
+    [_vPeopleCountBg setHidden:NO];
+    float pvHeight = _pvPeopleCount.frame.size.height;
+    float y = self.view.bounds.size.height - (pvHeight); // the root view of view controller
+    [UIView animateWithDuration:0.5f
+                          delay:0
+                        options:UIViewAnimationOptionBeginFromCurrentState
+                     animations:^{
+                         _pvPeopleCount.frame = CGRectMake(0, y, _pvPeopleCount.frame.size.width, pvHeight);
+                     }
+                     completion:nil];
+}
+
+-(void)tapped:(UITapGestureRecognizer *)gestureRecognizer {
+    [self.view endEditing:YES];
+    [_vPeopleCountBg endEditing:YES];
+    [self p_hidePicker];
+}
 
 - (void)keyboardWillHidden:(NSNotification*)aNotification
 {
     self.tableView.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height - 51);
-}
-
-- (void)p_touchTableView {
-    [self p_hideKeyBoard];
 }
 
 - (void)keyboardDidShown:(NSNotification*)aNotification

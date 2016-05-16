@@ -96,32 +96,40 @@
         cString = [cString substringFromIndex:2];
     if ([cString hasPrefix:@"#"])
         cString = [cString substringFromIndex:1];
-    if ([cString length] != 6)
+    if ([cString length] != 6 && [cString length] != 8)
         return [UIColor clearColor];
     
     // Separate into r, g, b substrings
     NSRange range;
     range.location = 0;
     range.length = 2;
+    int idx = 0;
+    unsigned int r, g, b, alpha;
+    
+    if (cString.length == 8) {
+        range.location = 0;
+        NSString *aStr = [cString substringWithRange:range];
+        [[NSScanner scannerWithString:aStr] scanHexInt:&alpha];
+        idx = 2;
+    } else {
+        idx = 0;
+        alpha = 255;
+    }
     
     //r
-    NSString *rString = [cString substringWithRange:range];
-    
+    range.location = idx;
+    NSString *rStr = [cString substringWithRange:range];
+    [[NSScanner scannerWithString:rStr] scanHexInt:&r];
     //g
-    range.location = 2;
-    NSString *gString = [cString substringWithRange:range];
-    
+    range.location = idx + 2;
+    NSString *gStr = [cString substringWithRange:range];
+    [[NSScanner scannerWithString:gStr] scanHexInt:&g];
     //b
-    range.location = 4;
-    NSString *bString = [cString substringWithRange:range];
+    range.location = idx + 4;
+    NSString *bStr = [cString substringWithRange:range];
+    [[NSScanner scannerWithString:bStr] scanHexInt:&b];
     
-    // Scan values
-    unsigned int r, g, b;
-    [[NSScanner scannerWithString:rString] scanHexInt:&r];
-    [[NSScanner scannerWithString:gString] scanHexInt:&g];
-    [[NSScanner scannerWithString:bString] scanHexInt:&b];
-    
-    return [UIColor colorWithRed:((float) r / 255.0f) green:((float) g / 255.0f) blue:((float) b / 255.0f) alpha:1.0f];
+    return [UIColor colorWithRed:((float) r / 255.0f) green:((float) g / 255.0f) blue:((float) b / 255.0f) alpha:((float)alpha / 255.f)];
 }
 
 @end
